@@ -1007,7 +1007,6 @@ site = json.loads("""
             "format": "uuid",
             "type": "string",
             "x-related-info": {
-                "field": "client_id",
                 "label": "name"
             }
         },
@@ -1103,7 +1102,6 @@ site_create = json.loads("""
             "format": "uuid",
             "type": "string",
             "x-related-info": {
-                "field": "client_id",
                 "label": "name"
             }
         },
@@ -1308,7 +1306,6 @@ site_update = json.loads("""
             "format": "uuid",
             "type": "string",
             "x-related-info": {
-                "field": "client_id",
                 "label": "name"
             }
         },

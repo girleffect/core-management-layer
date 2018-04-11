@@ -153,6 +153,7 @@ class AbstractStubClass(object):
         :param request: An HttpRequest
         :param offset (optional): integer An optional query parameter specifying the offset in the result set to start from.
         :param limit (optional): integer An optional query parameter to limit the number of results returned.
+        :param parent_id (optional): integer An optional query parameter to filter by parent_id
         :param domain_ids (optional): array An optional list of domain ids
         :returns: result or (result, headers) tuple
         """
@@ -1438,6 +1439,7 @@ class MockedStubClass(AbstractStubClass):
         :param request: An HttpRequest
         :param offset (optional): integer An optional query parameter specifying the offset in the result set to start from.
         :param limit (optional): integer An optional query parameter to limit the number of results returned.
+        :param parent_id (optional): integer An optional query parameter to filter by parent_id
         :param domain_ids (optional): array An optional list of domain ids
         """
         response_schema = json.loads("""{
@@ -2806,7 +2808,6 @@ class MockedStubClass(AbstractStubClass):
                 "format": "uuid",
                 "type": "string",
                 "x-related-info": {
-                    "field": "client_id",
                     "label": "name"
                 }
             },

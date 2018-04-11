@@ -92,6 +92,13 @@ parameters:
     type: string
     format: uuid
 
+  optional_parent_filter:
+    description: An optional query parameter to filter by parent_id
+    in: query
+    name: parent_id
+    required: false
+    type: integer
+
   optional_role_filter:
     description: An optional query parameter to filter by role_id
     in: query
@@ -265,7 +272,6 @@ definitions:
         type: string
         format: uuid
         x-related-info:
-          field: client_id
           label: name
       domain_id:
         type: integer
@@ -301,7 +307,6 @@ definitions:
         type: string
         format: uuid
         x-related-info:
-          field: client_id
           label: name
       domain_id:
         type: integer
@@ -325,7 +330,6 @@ definitions:
         type: string
         format: uuid
         x-related-info:
-          field: client_id
           label: name
       domain_id:
         type: integer
@@ -1561,6 +1565,7 @@ paths:
       parameters:
         - $ref: '#/parameters/optional_offset'
         - $ref: '#/parameters/optional_limit'
+        - $ref: '#/parameters/optional_parent_filter'
         - name: domain_ids
           description: An optional list of domain ids
           in: query

@@ -761,6 +761,11 @@ class Domains(View, CorsViewMixin):
                 if 100 < limit:
                     raise ValidationError("limit exceeds its maximum limit")
                 optional_args["limit"] = limit
+            # parent_id (optional): integer An optional query parameter to filter by parent_id
+            parent_id = self.request.query.get("parent_id", None)
+            if parent_id is not None:
+                parent_id = int(parent_id)
+                optional_args["parent_id"] = parent_id
             # domain_ids (optional): array An optional list of domain ids
             domain_ids = self.request.query.getall("domain_ids", None)
             if domain_ids:
@@ -3395,7 +3400,6 @@ class Sites(View, CorsViewMixin):
                 "format": "uuid",
                 "type": "string",
                 "x-related-info": {
-                    "field": "client_id",
                     "label": "name"
                 }
             },
@@ -5612,7 +5616,6 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
                     "format": "uuid",
                     "type": "string",
                     "x-related-info": {
-                        "field": "client_id",
                         "label": "name"
                     }
                 },
@@ -5702,7 +5705,6 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
                     "format": "uuid",
                     "type": "string",
                     "x-related-info": {
-                        "field": "client_id",
                         "label": "name"
                     }
                 },
@@ -5882,7 +5884,6 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
                     "format": "uuid",
                     "type": "string",
                     "x-related-info": {
-                        "field": "client_id",
                         "label": "name"
                     }
                 },
@@ -6372,7 +6373,8 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
             "minimum": 1,
             "name": "limit",
             "required": false,
-            "type": "integer"
+            "type": "integer",
+            "x-admin-on-rest-exclude": true
         },
         "optional_nocache": {
             "default": false,
@@ -6388,6 +6390,14 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
             "in": "query",
             "minimum": 0,
             "name": "offset",
+            "required": false,
+            "type": "integer",
+            "x-admin-on-rest-exclude": true
+        },
+        "optional_parent_filter": {
+            "description": "An optional query parameter to filter by parent_id",
+            "in": "query",
+            "name": "parent_id",
             "required": false,
             "type": "integer"
         },
@@ -6917,6 +6927,12 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
                     },
                     {
                         "$ref": "#/parameters/optional_limit",
+                        "x-scope": [
+                            ""
+                        ]
+                    },
+                    {
+                        "$ref": "#/parameters/optional_parent_filter",
                         "x-scope": [
                             ""
                         ]
@@ -9819,6 +9835,31 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
     },
     "swagger": "2.0",
     "x-detail-page-definitions": {
+        "domain": {
+            "inlines": [
+                {
+                    "fields": [
+                        "id",
+                        "name",
+                        "created_at",
+                        "updated_at"
+                    ],
+                    "key": "parent_id",
+                    "label": "Child Domains",
+                    "model": "domain"
+                },
+                {
+                    "fields": [
+                        "role_id",
+                        "created_at",
+                        "updated_at"
+                    ],
+                    "key": "domain_id",
+                    "label": "Roles",
+                    "model": "domain_role"
+                }
+            ]
+        },
         "invitation": {
             "inlines": [
                 {
@@ -9857,6 +9898,20 @@ class __SWAGGER_SPEC__(View, CorsViewMixin):
                     "key": "role_id",
                     "label": "Resource Permissions",
                     "model": "role_resource_permission"
+                }
+            ]
+        },
+        "site": {
+            "inlines": [
+                {
+                    "fields": [
+                        "role_id",
+                        "created_at",
+                        "updated_at"
+                    ],
+                    "key": "site_id",
+                    "label": "Roles",
+                    "model": "site_role"
                 }
             ]
         },
